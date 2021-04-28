@@ -1,0 +1,64 @@
+<div class="h-100 w-100 login-main" fxLayout="row" fxLayoutAlign="flex-end stretch">
+    <div fxFlex.xs="0" fxFlex.sm="50" fxFlex.md="60" fxFlex.lg="70" fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="50" fxFlex.sm="80" style="background-color: rgba(255, 255, 255, 0.2);">
+            <img src="assets/img/code-storage-logo.png" class="shadow" style="width: 100%;">
+        </div>
+    </div>
+    <div class="login-form" fxFlex.xs="100" fxFlex.sm="50" fxFlex.md="40" fxFlex.lg="30">
+        <div class="login-header">
+            <h1 class="display-3">Crear Cuenta</h1>
+        </div>
+        <form #signInForm="ngForm" fxLayout="column" fxLayoutAlign="start stretch">
+
+            <mat-form-field appearance="legacy">
+                <mat-label>Nombre</mat-label>
+                <mat-icon fontSet="material-icons-outlined" matSuffix>person</mat-icon>
+                <input [(ngModel)]="user.name" name="name" matInput required>
+                <mat-error>
+                    Debe ingresar su nombre
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="legacy">
+                <mat-label>Correo electrónico</mat-label>
+                <mat-icon fontSet="material-icons-outlined" matSuffix>email</mat-icon>
+                <input [(ngModel)]="user.email" name="email" matInput required>
+                <mat-error>
+                    Debe ingresar su email
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="legacy">
+                <mat-label>Contraseña</mat-label>
+                <mat-icon fontSet="material-icons-outlined" matSuffix>lock</mat-icon>
+                <input type="password" [(ngModel)]="user.password" name="password" matInput required>
+                <mat-error>
+                    Debe ingresar una contraseña
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="legacy">
+                <mat-label>Confirmar Contraseña</mat-label>
+                <mat-icon fontSet="material-icons-outlined" matSuffix>lock</mat-icon>
+                <input type="password" [(ngModel)]="user.passwordConfirm" name="passwordConfirm" matInput required>
+                <mat-error>
+                    Debe confirmar su contraseña
+                </mat-error>
+            </mat-form-field>
+
+            <div fxLayout="column" fxLayoutAlign="start stretch" class="mt-3">
+                <button color="primary" class="mb-3" mat-raised-button (click)="signin()" [disabled]="signInForm.invalid">Crear Cuenta</button>
+                <div class="w-100 mb-3">
+                    <mat-divider></mat-divider>
+                </div>
+                <p>Ya tienes una cuenta?</p>
+                <button fxFlex="60" color="primary" class="mt-1" mat-raised-button routerLink="../login">Iniciar Sesión</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="position-absolute back-fab-button" ngStyle.lt-sm="right: 10px; left: auto">
+    <button mat-mini-fab color="warn" routerLink="/"><mat-icon>arrow_back</mat-icon></button>
+</div>

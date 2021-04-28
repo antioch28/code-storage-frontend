@@ -1,0 +1,45 @@
+<div class="h-100 w-100 login-main" fxLayout="row" fxLayoutAlign="center stretch">
+    <div class="login-form" fxFlex.xs="90" fxFlex.sm="50" fxFlex.md="40" fxFlex.lg="20">
+        <div class="login-header">
+            <h1>Iniciar Sesión</h1>
+        </div>
+        <form #logInForm="ngForm" fxLayout="column" fxLayoutAlign="start stretch">
+            <mat-form-field appearance="outline">
+                <mat-label>Correo electrónico</mat-label>
+                <mat-icon matSuffix>email</mat-icon>
+                <input matInput [(ngModel)]="user.email" name="email" required>
+                <mat-error>Debe introducir su correo</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Contraseña</mat-label>
+                <mat-icon matSuffix>lock</mat-icon>
+                <input type="password" matInput [(ngModel)]="user.password" name="password" required>
+                <mat-error>Debe introducir su contraseña</mat-error>
+            </mat-form-field>
+
+            <mat-error class="text-center mt-n-3 mb-0" *ngIf="authErr">El correo y la contraseña no coinciden</mat-error>
+
+            <div class="mb-5" fxLayout="row" fxLayoutAlign="space-between start">
+                <a href="#" class="password-recovery">Olvidé mi contraseña</a>
+                <mat-slide-toggle labelPosition='before' color="primary" fxFlexAlign="end">Recuérdame</mat-slide-toggle>
+            </div>
+
+            <!-- <mat-slide-toggle fxFlexAlign="end">Remember me</mat-slide-toggle> -->
+
+
+            <div fxLayout="column" fxLayoutAlign="start stretch" class="mt-3">
+                <button color="primary" class="mb-3" mat-raised-button (click)="login()" [disabled]="logInForm.invalid">Iniciar Sesión</button>
+                <div class="w-100">
+                    <mat-divider></mat-divider>
+                </div>
+                <p class="text-left mt-2">No tienes una cuenta?</p>
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <button fxFill color="primary" mat-raised-button routerLink="../signin">Crear Cuenta</button>
+                    <span class="text-center mt-2 mb-2" fxFlex="10">O</span>
+                    <button fxFill color="primary" mat-raised-button><mat-icon>facebook</mat-icon> Iniciar con Facebook</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

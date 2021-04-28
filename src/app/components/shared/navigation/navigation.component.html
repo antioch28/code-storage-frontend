@@ -1,0 +1,54 @@
+<p class="mb-0">
+    <mat-toolbar color="primary">
+        <button *ngIf="hasSidebar" fxHide.xs mat-icon-button class="example-icon" (click)="toggleSidebar()" aria-label="Example icon-button with menu icon">
+            <mat-icon *ngIf="!showFiller">menu</mat-icon>
+            <mat-icon *ngIf="showFiller">close</mat-icon>
+        </button>
+        <img src="../assets/img/code-storage-toolbar-logo.png" class="mr-2" width="30px" height="30px" alt="toolbar-icon">
+        <span>Code Storage</span>
+        <span class="example-spacer"></span>
+
+        <button *ngIf="showSearchbar" mat-button class="example-icon favorite-icon" (click)="toggleSearchbar()">
+            <mat-icon>search</mat-icon>
+        </button>
+
+
+        <ng-container *ngIf="showAuthLinks">
+            <button mat-button routerLink='/auth/login' class="example-icon favorite-icon">
+                Log In        
+            </button>
+            <button mat-button routerLink='/auth/signin' class="example-icon">
+                Sign Up        
+            </button>
+        </ng-container>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/my/settings">
+                <mat-icon>settings</mat-icon>
+                <span>Ajustes de cuenta</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>power_settings_new</mat-icon>
+                <span>Cerrar sesión</span>
+                </button>
+        </mat-menu>
+    </mat-toolbar>
+    <mat-toolbar-row *ngIf="showSearchbar" class="pt-3">
+        <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-label>Search...</mat-label>
+            <input matInput value="">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </mat-toolbar-row>
+</p>
+
+<div *ngIf="hasSidebar" style="height: calc(100vh - 64px)" fxLayout="column wrap">
+    <app-sidebar style="height: 100%; width: 100%;" fxFill fxFlex="100" fxLayout="column wrap"></app-sidebar>
+</div>
+
+<div *ngIf="!hasSidebar">
+
+</div>

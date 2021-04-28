@@ -1,0 +1,50 @@
+<app-navigation></app-navigation>
+<div class="jumbotron jumbotron-fluid" [ngStyle.md]="{ height: 'calc(70vh - 64px)'}">
+    <div class="container" fxLayout.md="row" fxLayoutAlign="center center">
+        <div fxFlex="50" class="text-right">
+            <h1 class="display-3">Tú codificas, nosotros almacenamos</h1>
+            <p class="lead">Tus proyectos cobran vida mientras codificas</p>
+            <hr class="my-2">
+            <p>¿Listo para comenzar?</p>
+            <p class="lead">
+                <button mat-raised-button color="warn" routerLink="auth/signin">Registrate ya!</button>
+            </p>
+        </div>
+        <div fxFlex="50" class="text-center">
+            <img src="../../../assets/img/code-storage-landing-logo.png" style="width: 50%;" alt="logo-code-storage">
+        </div>
+    </div>
+</div>
+<div class="container-fluid pt-5">
+    <div class="container" fxLayout.xs="column" fxLayout.md="row" fxLayoutGap.md="16px grid" style="height: 50vh;" fxLayoutAlign.md="space-between stretch">
+        <div fxFlex.md="33" class="text-center">
+
+            <div fxLayoutAlign="space-evenly start" class="p-3 mb-5">
+                <mat-icon color="primary" fontSet="fab" data-fa-transform="grow-50">html5</mat-icon>
+                <mat-icon color="primary" fontSet="fab" data-fa-transform="grow-50">js</mat-icon>
+                <mat-icon color="primary" fontSet="fab" data-fa-transform="grow-50">css3</mat-icon>
+            </div>
+            <p>Crea, edita y previsualiza tus proyectos</p>
+
+        </div>
+        <div fxFlex.md="33" class="text-center">
+
+            <div fxLayoutAlign="space-evenly start" class="p-3 mb-5">
+                <mat-icon color="primary" fontSet="fas" data-fa-transform="grow-50">code</mat-icon>
+            </div>
+            <p>Crea Snippets de código en cualquier lenguaje</p>
+
+        </div>
+        <div fxFlex.md="33" class="text-center">
+
+            <div fxLayoutAlign="space-evenly start" class="p-3 mb-5">
+                <mat-icon color="primary" fontSet="fas" data-fa-transform="grow-50">download</mat-icon>
+            </div>
+            <p>Descarga tus archivos o edítalos en modo sin conexión</p>
+
+        </div>
+    </div>
+</div>
+<div>
+    Planes van aquí...
+</div>

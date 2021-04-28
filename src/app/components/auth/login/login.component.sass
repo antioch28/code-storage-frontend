@@ -1,0 +1,26 @@
+@import '~@angular/material/theming'
+
+@include mat-core()
+
+$hover: mat-palette($mat-indigo)
+$active: $hover
+
+.login-main 
+    background-image: repeating-linear-gradient(45deg, red, lime, magenta)
+    
+    .login-form 
+        padding: 3rem 1.2rem
+        /* text-align: center */
+        background-color: mat-color( $active, 100)
+
+.login-header 
+    text-align: center
+
+
+.login-header .material-icons 
+    font-size: 5rem !important
+    margin: 0
+
+
+.password-recovery 
+    color: #212529

@@ -1,0 +1,63 @@
+<div (dblclick)="openProject()" class="pointer">
+    <mat-card>
+        <mat-card-content fxLayout="row no-wrap" fxLayoutAlign="space-between center">
+            <mat-icon>work</mat-icon>
+            <div>
+                <mat-card-title>{{ project.name }}</mat-card-title>
+                <mat-card-subtitle>Ult. modificación: {{ project.lastModified | date:'short' }}</mat-card-subtitle>
+            </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+            <button mat-button color="primary" [routerLink]="['../projects', project._id]"><mat-icon>edit</mat-icon> Editar</button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_horiz</mat-icon>
+        </button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+
+<!-- <mat-card>
+    <mat-card-content fxLayout="row no-wrap" fxLayoutAlign="space-between center">
+        <mat-icon>work</mat-icon>
+        <div>            
+            <mat-card-title>{{ project.name }}</mat-card-title>
+            <mat-card-subtitle>Ult. modificación: {{ project.lastModified | date:'short' }}</mat-card-subtitle>
+        </div>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-button color="primary" [routerLink]="[project._id]"><mat-icon>edit</mat-icon> Editar</button>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_horiz</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card> -->
+
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item>
+            <mat-icon>open_in_new</mat-icon>
+            <span>Vista previa</span>
+        </button>
+    <button mat-menu-item>
+            <mat-icon>file_download</mat-icon>
+            <span>Descargar proyecto</span>
+        </button>
+    <button mat-menu-item>
+            <mat-icon>info</mat-icon>
+            <span>Información del proyecto</span>
+        </button>
+    <button mat-menu-item>
+            <mat-icon>share</mat-icon>
+            <span>Compartir</span>
+        </button>
+    <button mat-menu-item>
+            <mat-icon>message</mat-icon>
+            <span>Comentarios</span>
+        </button>
+    <button mat-menu-item>
+            <mat-icon>delete</mat-icon>
+            <span>Mover a la papelera</span>
+        </button>
+</mat-menu>

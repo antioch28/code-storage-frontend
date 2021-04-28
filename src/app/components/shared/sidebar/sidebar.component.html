@@ -1,0 +1,57 @@
+<main fxLayout="row wrap" fxLayoutAlign="center stretch" fxFill fxFlex="100">
+    <mat-drawer-container class="example-container" autosize [hasBackdrop]='false' fxFill>
+        <mat-drawer #drawer class="example-sidenav" mode="side" opened="manualToggle" fxHide.xs>
+
+            <mat-nav-list [ngClass]="{ 'round-item': !showFiller}">
+                <a mat-list-item [matMenuTriggerFor]="menu" [matTooltip]=" !showFiller ? 'Nuevo Proyecto' : ''" matTooltipPosition='after' class="listitem">
+                    <mat-icon matListIcon>create_new_folder</mat-icon>{{ showFiller ? 'Nuevo Proyecto' : '' }}
+                </a>
+
+                <mat-divider></mat-divider>
+                <a mat-list-item routerLinkActive="active" routerLink="space" [matTooltip]=" !showFiller ? 'Mis Proyectos' : ''" matTooltipPosition='after' class="listitem">
+                    <mat-icon matListIcon>folder</mat-icon>{{ showFiller ? 'Mis Proyectos' : '' }}
+                </a>
+                <a mat-list-item routerLinkActive="active" routerLink="snippets" [matTooltip]=" !showFiller ? 'Mis Snippets' : ''" matTooltipPosition='after' class="listitem">
+                    <mat-icon matListIcon>code</mat-icon>{{ showFiller ? 'Mis Snippets' : '' }}
+                </a>
+                <a mat-list-item routerLinkActive="active" routerLink="starred" [matTooltip]=" !showFiller ? 'Destacados' : ''" matTooltipPosition='after' class="listitem">
+                    <mat-icon matListIcon>star</mat-icon>{{ showFiller ? 'Destacados' : '' }}
+                </a>
+                <a mat-list-item routerLinkActive="active" routerLink="shared" [matTooltip]=" !showFiller ? 'Compartidos' : ''" matTooltipPosition='after' class="listitem">
+                    <mat-icon matListIcon>folder_shared</mat-icon> {{ showFiller ? 'Compartidos' : '' }}
+                </a>
+                <a mat-list-item routerLinkActive="active" routerLink="trash" [matTooltip]=" !showFiller ? 'Papelera' : ''" matTooltipPosition='after' class="listitem">
+                    <mat-icon matListIcon>delete</mat-icon> {{ showFiller ? 'Papelera' : '' }}
+                </a>
+                <mat-divider></mat-divider>
+                <a mat-list-item routerLinkActive="active" routerLink="settings" [matTooltip]=" !showFiller ? 'Configuración' : ''" matTooltipPosition='after' class="listitem">
+                    <mat-icon matListIcon>settings</mat-icon> {{ showFiller ? 'Configuración' : '' }}
+                </a>
+                <a mat-list-item routerLinkActive="active" routerLink="storage" [matTooltip]=" !showFiller ? 'Almacenamiento' : ''" matTooltipPosition='after' class="listitem">
+                    <mat-icon matListIcon>storage</mat-icon> {{ showFiller ? 'Almacenamiento' : '' }}
+                </a>
+            </mat-nav-list>
+
+        </mat-drawer>
+
+        <div class="example-sidenav-content h-100">
+            <router-outlet></router-outlet>
+        </div>
+
+    </mat-drawer-container>
+</main>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openFolderDialog()">
+        <mat-icon>create_new_folder</mat-icon>
+        <span>Nueva Carpeta</span>
+    </button>
+    <button mat-menu-item (click)="openProjectDialog()">
+        <mat-icon>work</mat-icon>
+        <span>Nuevo proyecto</span>
+    </button>
+    <button mat-menu-item (click)="openSnippetDialog()">
+        <mat-icon>code</mat-icon>
+        <span>Nuevo snippet</span>
+    </button>
+</mat-menu>
