@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api_url: 'http://code-storage-backend.herokuapp.com'
+  api_url: 'https://code-storage-backend.herokuapp.com'
 };
