@@ -38,7 +38,9 @@
                         ],
                         "scripts": [
                             "src/assets/js/all.min.js",
-                            "src/assets/js/bootstrap.min.js"
+                            "src/assets/js/ace-builds/src-noconflict/ace.js",
+                            "src/assets/js/ace-builds/src-noconflict/ext-modelist.js",
+                            "src/assets/js/ace-builds/src-noconflict/ext-language_tools.js"
                         ]
                     },
                     "configurations": {

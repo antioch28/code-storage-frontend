@@ -1,17 +1,50 @@
-<div class="p-3">
+<div *ngIf="!isFolderView" class="pt-3 px-3">
     <div>
         <h2>Mi espacio</h2>
     </div>
     <mat-divider></mat-divider>
 </div>
 
-<div *ngIf="!loadingData" fxLayout="row wrap" fxLayoutGap="12px grid" class="p-2">
-    <div fxFlex="100" fxFlex.sm="33" fxFlex.md="25" fxFlex.lg="20" *ngFor="let folder of folders">
-        <app-folder-card [folder]="folder"></app-folder-card>
+<div *ngIf="isFolderView" class="py-3 px-3">
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <button mat-mini-fab (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div fxFlex="100" class="pl-3">
+            <h4 class="alert-heading mb-0">
+                {{ currentFolder.name }}
+            </h4>
+            <p class="text-muted mb-1">Últ. modificación: {{ currentFolder.lastModified | date:'dd/MM/YYYY'}}</p>
+        </div>
     </div>
-    <div fxFlex="100" fxFlex.sm="33" fxFlex.md="25" fxFlex.lg="20" *ngFor="let project of projects">
-        <app-project-card [project]="project"></app-project-card>
+    <mat-divider></mat-divider>
+</div>
+
+
+<div *ngIf="!loadingData">
+
+    <div class="p-3" *ngIf="folders.length > 0">
+        <h3 class="text-muted">Carpetas</h3>
+        <div fxLayout="row wrap" fxLayoutGap="12px grid">
+            <div fxFlex="100" fxFlex.sm="33" fxFlex.md="25" fxFlex.lg="20" *ngFor="let folder of folders">
+                <app-folder-card [folder]="folder" (deletedFolder)="onDeletedFolder($event)"></app-folder-card>
+            </div>
+        </div>
     </div>
+
+    <div class="p-3" *ngIf="projects.length > 0">
+        <h3 class="text-muted">Proyectos</h3>
+        <div fxLayout="row wrap" fxLayoutGap="12px grid">
+            <div fxFlex="100" fxFlex.sm="33" fxFlex.md="25" fxFlex.lg="20" *ngFor="let project of projects">
+                <app-project-card [project]="project" (deletedProject)="onDeletedProject($event)"></app-project-card>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="(folders.length == 0 && projects.length == 0)" class="p-5" fxLayoutAlign="center center">
+        <h3 class="text-muted">Aún no has agregado carpetas / proyectos a tu espacio</h3>
+    </div>
+
 </div>
 
 <div *ngIf="loadingData" class="h-100 w-100">

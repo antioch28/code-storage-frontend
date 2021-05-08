@@ -17,6 +17,8 @@ export class SigninComponent implements OnInit {
     passwordConfirm: ""
   };
 
+  loading = false;
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -28,10 +30,11 @@ export class SigninComponent implements OnInit {
 
   signin() {
     if ( this.user.name != "" && this.user.email && this.user.password != "" && this.user.password == this.user.passwordConfirm) {
+      this.loading = true;
       this.authService.signin(this.user)
         .subscribe( (res: any) => {
           if (res.ok) {
-            console.log(res);
+            this.loading = false;            
             this.userService.setLoggedUser(res.data);            
             this.authService.setToken(res.token);
             this.router.navigate(['my']);

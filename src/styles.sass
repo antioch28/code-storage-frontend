@@ -1,4 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+// Imports y variables para personalización de tema
+@import '~@angular/material/theming'
+@include mat-core()
+
+$primary: mat-palette($mat-indigo)
+// Fin de imports y variables
 
 html, body
     height: 100%
@@ -10,29 +15,24 @@ body
 @font-face
     font-family: 'Material Icons'
     font-style: normal
-    font-weight: 400
+    font-weight: 400    
     src: url('assets/fonts/MaterialIcons-Regular.ttf') format('truetype')
 
 .material-icons
     font-family: 'Material Icons'
     font-weight: normal
     font-style: normal
-    font-size: 24px
-    /* Preferred icon size */
+    font-size: 24px    
     display: inline-block
     line-height: 1
     text-transform: none
     letter-spacing: normal
     word-wrap: normal
     white-space: nowrap
-    direction: ltr
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale
-    /* Support for IE. */
+    direction: ltr    
+    -webkit-font-smoothing: antialiased    
+    text-rendering: optimizeLegibility    
+    -moz-osx-font-smoothing: grayscale    
     font-feature-settings: 'liga'
 
 .pointer
@@ -43,3 +43,52 @@ body
         outline-style: none
         outline-width: 0
         outline-color: transparent
+
+// ******************************************************   
+// Configuración de colores distintos a los del tema
+// ******************************************************
+$colorList: ("white" #fff, "green" #0f0)
+
+@each $i in $colorList    
+    .mat-progress-spinner.mat-#{nth($i,1)} circle
+        stroke: #{nth($i,2)}
+
+@each $j in (1, 2, 3, 4, 5, 6)
+    h#{$j}.mat-primary
+        color: mat-color($primary, 700)
+
+.mat-card
+    &:hover
+        @include mat-elevation(5, black, 0.8)
+    
+
+// ******************************************************   
+// Estilos para formularios de acceso y registro
+// ******************************************************
+.login-main    
+    background-color: mat-color( $primary, darker)
+    
+    .login-form 
+        padding: 3rem 1.2rem        
+        background-color: mat-color( $primary, 50)
+
+
+// ******************************************************   
+// Tema light y dark
+// ******************************************************
+$theme-primary: mat-palette($mat-indigo, 500, 100, 700)
+$theme-accent: mat-palette($mat-pink, A200, A100, A400)
+$theme-warn: mat-palette($mat-red)
+$app-light-theme: mat-light-theme(( color: ( primary: $theme-primary, accent: $theme-accent, warn: $theme-warn, )))
+
+$app-dark-theme: mat-dark-theme(( color: ( primary: $theme-primary, accent: $theme-accent, warn: $theme-warn, )))
+
+.img-thumbnail
+    background-color: mat-color($theme-accent)
+    border-style: none
+
+.light-theme
+    @include angular-material-theme($app-light-theme)
+
+.dark-theme
+    @include angular-material-color($app-dark-theme)

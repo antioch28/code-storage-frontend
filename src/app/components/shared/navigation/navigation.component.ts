@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { AuthService } from '../../../services/auth.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-navigation',
@@ -10,33 +11,46 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class NavigationComponent implements OnInit {
 
+  loggedUser: any;
+  
   showFiller = false;
   manualToggle = false;
   hasSidebar = false;
+  hasSearchbar = false;
   showSearchbar = false;
-  showAuthLinks = false;
+  showAuthLinks = true;
+  showUserMenu = false;
 
   constructor(
     private navigationService: NavigationService,
     private authService: AuthService,
+    private userService: UserService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe( data => {      
-      if (data.hasSidebar){
-        this.hasSidebar = data.hasSidebar;        
-      }
 
-      if (data.showAuthLinks) {
-        this.showAuthLinks = data.showAuthLinks;
-      }
+    if(this.authService.loggedIn()) {
+      this.hasSidebar = true;
+      this.showUserMenu = true;
+      this.hasSearchbar = true;
+      this.showAuthLinks = false;
 
-      if (data.hasSearchbar) {
-        this.showSearchbar = data.hasSearchbar;
-      }
-    }, err => console.log(err));
+      this.userService.getUserInfo().subscribe( user => {
+        this.loggedUser = user;
+        console.log(user);
+      }, err => {
+        console.log(err);
+      });
+
+      this.userService.profilePicUpdate.subscribe( profile => {
+        if (profile !== '') {
+          this.loggedUser.profile = profile;
+        }
+      });
+    }
+
   }
 
   toggleSidebar() {
@@ -49,6 +63,8 @@ export class NavigationComponent implements OnInit {
   }
 
   logout() {
+    this.showAuthLinks = true;
+    this.showUserMenu = false;
     this.authService.logout();
     this.router.navigate(['../']);
   }

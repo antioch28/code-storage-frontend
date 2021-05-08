@@ -1,1 +1,165 @@
-<p>account-settings works!</p>
+<div *ngIf="user && user.name" fxLayout="column" fxLayout.md="row" class="h-100 w-100" [ngClass.md]="['account-setting-parent']" fxLayoutAlign.md="start stretch">
+    <div class="border-right" fxFlex.md="20" [ngClass.md]="['account-setting-left', 'h-100']">
+        <div class="container p-3 text-center position-relative profile-setting">
+            <img src="{{ user.profile | image }}" class="img-thumbnail rounded-circle img-fluid" [ngStyle]="{ height: '150px', width: '150px'}" [ngStyle.md]="{ height: '200px', width: '200px'}" alt="User profile pic" srcset="">
+            <button [ngClass]="['profile-btn-sm']" [ngClass.md]="['profile-btn-md']" mat-mini-fab (click)="openProfileDialog()" [matTooltip]=" user.profile == ''? 'Agregar foto de perfil' : 'Cambiar foto de perfil'"><mat-icon>add_a_photo</mat-icon></button>
+        </div>
+        <mat-divider>
+        </mat-divider>
+        <div class="container text-center p-3">
+            <h1 class="font-weight-bold mb-0">{{ user.name }}</h1>
+            <h3 class="text-muted mb-1">{{ user.email }}</h3>
+        </div>
+        <mat-divider>
+        </mat-divider>
+        <div class="container text-center pt-3">
+            <h2 class="mat-primary mb-0">PLAN {{ user.plan.planInfo.name }}</h2>
+            <h3 class="text-muted">Desde: {{ user.plan.startDate | date:'dd/MM/YYYY' }}</h3>
+        </div>
+        <div class="text-center p-3">
+            <button mat-raised-button color="primary">CAMBIAR PLAN</button>
+        </div>
+    </div>
+
+    <div fxFlex.md="80" class="p-3">
+
+        <form [formGroup]="userForm">
+
+            <mat-card class="mb-3">
+                <mat-card-header fxLayoutAlign="space-between center" class="pb-2">
+                    <mat-card-title fxFlex="100" class="mb-0">Datos de tu cuenta</mat-card-title>
+                    <button mat-button [color]=" editAccountMode ? 'warn' : 'primary' " [matTooltip]=" !editAccountMode ? 'Editar datos de cuenta' : 'Cancelar edición'" (click)="setEditAccountMode()">
+                        <mat-icon>{{ editAccountMode ? 'cancel' : 'edit'}}</mat-icon>                    
+                    </button>
+                </mat-card-header>
+                <mat-divider>
+                </mat-divider>
+                <mat-card-content class="mb-0">
+                    <div class="pt-3 pb-0" fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap.md="8px grid">
+                        <mat-form-field fxFlex="100" fxFlex.md="50" appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input formControlName="name" name="name" matInput [attr.disabled]="!editAccountMode">
+                            <mat-icon matSuffix>person</mat-icon>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="100" fxFlex.md="50" appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput disabled [value]="user.email">
+                            <mat-icon matSuffix>email</mat-icon>
+                        </mat-form-field>
+                        <ng-container *ngIf="editAccountMode">
+                            <mat-form-field fxFlex="100" fxFlex.md="50" appearance="outline">
+                                <mat-label>Nueva contraseña</mat-label>
+                                <input formControlName="password" name="password" matInput [attr.disabled]="!editAccountMode">
+                                <mat-icon matSuffix>lock</mat-icon>
+                            </mat-form-field>
+                            <mat-form-field fxFlex="100" fxFlex.md="50" appearance="outline">
+                                <mat-label>Confirmar nueva contraseña</mat-label>
+                                <input formControlName="confirmPassword" name="confirmPassword" matInput [attr.disabled]="!editAccountMode">
+                                <mat-icon matSuffix>lock</mat-icon>
+                            </mat-form-field>
+                        </ng-container>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions align="end" class="pt-0" *ngIf="editAccountMode">
+                    <button mat-button color="primary">Guardar cambios</button>
+                </mat-card-actions>
+            </mat-card>
+
+            <mat-card class="mb-3">
+                <mat-card-header fxLayoutAlign="space-between center" class="pb-2">
+                    <mat-card-title fxFlex="100" class="mb-0">Método de pago</mat-card-title>
+                    <button mat-button [color]=" editPaymentMode ? 'warn' : 'primary' " [matTooltip]=" user.paymentMethod.ownerName == '' && !editPaymentMode ? 'Agregar método de pago' : (!editPaymentMode ? 'Editar método de pago' : 'Cancelar edición')" (click)="setEditPaymentMode()">
+                        <mat-icon>{{ user.paymentMethod.ownerName == '' && !editPaymentMode ? 'add' : (editPaymentMode ? 'cancel' : 'edit')}}</mat-icon>                    
+                    </button>
+                </mat-card-header>
+                <mat-divider>
+                </mat-divider>
+                <mat-card-content class="mb-0">
+                    <div class="pt-3 pb-0">
+                        <div *ngIf="user.paymentMethod.ownerName == '' && !editPaymentMode" class="w-100 text-muted py-2 text-center">
+                            <h4>No ha registrado ningún método de pago</h4>
+                        </div>
+
+                        <ng-container *ngIf="editPaymentMode || user.paymentMethod.ownerName != ''">
+                            <div formGroupName="paymentMethod" fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap.md="8px grid">
+                                <mat-form-field fxFlex="100" fxFlex.md="50" appearance="outline">
+                                    <mat-label>Nombre del propietario</mat-label>
+                                    <input [attr.disabled]="!editPaymentMode" formControlName="ownerName" name="ownerName" matInput>
+                                    <mat-icon matSuffix>person</mat-icon>
+                                </mat-form-field>
+                                <mat-form-field fxFlex="100" fxFlex.md="50" appearance="outline">
+                                    <mat-label>Número de la tarjeta</mat-label>
+                                    <input [attr.disabled]="!editPaymentMode" matInput formControlName="cardNumber">
+                                    <mat-icon matSuffix>credit_card</mat-icon>
+                                </mat-form-field>
+                                <mat-form-field fxFlex="100" fxFlex.md="50" appearance="outline">
+                                    <mat-label>CCV</mat-label>
+                                    <input [attr.disabled]="!editPaymentMode" matInput formControlName="ccv">
+                                    <mat-icon matSuffix>dialpad</mat-icon>
+                                </mat-form-field>
+                                <mat-form-field fxFlex="100" fxFlex.md="50" appearance="outline">
+                                    <mat-label>Fecha de expiración</mat-label>
+                                    <input [attr.disabled]="!editPaymentMode" matInput formControlName="expDate">
+                                    <mat-icon matSuffix>date_range</mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions align="end" class="pt-0" *ngIf="editPaymentMode">
+                    <button mat-button color="primary">{{ user.paymentMethod.ownerName == '' ? 'Agregar' : 'Guardar cambios'}}</button>
+                </mat-card-actions>
+            </mat-card>
+
+            <mat-card class="mb-3">
+                <mat-card-header fxLayoutAlign="space-between center" class="pb-2">
+                    <mat-card-title fxFlex="100" class="mb-0">Configuración de Tema</mat-card-title>
+                    <!-- <button mat-button [color]=" editThemingMode ? 'warn' : 'primary' " [matTooltip]=" !editThemingMode ? 'Editar configuración de tema' : 'Cancelar edición'" (click)="setEditThemingMode()">
+                        <mat-icon>{{ editThemingMode ? 'cancel' : 'edit'}}</mat-icon>                    
+                    </button> -->
+                </mat-card-header>
+                <mat-divider>
+                </mat-divider>
+                <mat-card-content class="mb-0">
+                    <div formGroupName="settings" class="pt-3 pb-0" fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap.md="8px grid">
+                        <mat-radio-group (change)="setAppTheme()" formControlName="theme" class="w-100" fxLayoutAlign="space-between center">
+                            <mat-radio-button fxFlex="50" color="accent" value="light">Light</mat-radio-button>
+                            <mat-radio-button fxFlex="50" color="accent" value="dark">Dark</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions align="end" class="pt-0" *ngIf="editThemingMode">
+                    <button mat-button color="primary">Guardar cambios</button>
+                </mat-card-actions>
+            </mat-card>
+
+            <mat-card class="mb-3">
+                <mat-card-header fxLayoutAlign="space-between center" class="pb-2">
+                    <mat-card-title fxFlex="100" class="mb-0">Configuración del editor</mat-card-title>
+                    <!-- <button mat-button [color]=" editLayoutMode ? 'warn' : 'primary' " [matTooltip]=" !editLayoutMode ? 'Editar configuración del editor' : 'Cancelar edición'" (click)="setEditLayoutMode()">
+                        <mat-icon>{{ editLayoutMode ? 'cancel' : 'edit'}}</mat-icon>                    
+                    </button> -->
+                </mat-card-header>
+                <mat-divider>
+                </mat-divider>
+                <mat-card-content class="mb-0">
+                    <div formGroupName="settings" class="pt-3 pb-0" fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap.md="8px grid">
+                        <mat-radio-group formControlName="editorLayout" class="w-100" fxLayoutAlign="space-between center">
+                            <mat-radio-button fxFlex="50" color="accent" value="grid">Grid</mat-radio-button>
+                            <mat-radio-button fxFlex="50" color="accent" value="tabs">Tabs</mat-radio-button>
+                        </mat-radio-group>
+                        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                            <div fxFlex="50" style="height: 80px; width: 80px; background-color: red;"></div>
+                            <div fxFlex="50" style="height: 80px; width: 80px; background-color: blue;"></div>
+                        </div>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions align="end" class="pt-0" *ngIf="editLayoutMode">
+                    <button mat-button color="primary">Guardar cambios</button>
+                </mat-card-actions>
+            </mat-card>
+
+        </form>
+
+    </div>
+</div>

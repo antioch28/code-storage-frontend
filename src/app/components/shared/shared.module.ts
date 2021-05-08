@@ -7,12 +7,16 @@ import { LoadingComponent } from './loading/loading.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
+import { ImagePipe } from '../../pipes/image.pipe';
+
+
 
 @NgModule({
   declarations: [
     LoadingComponent,
     NavigationComponent,
-    SidebarComponent
+    SidebarComponent,
+    ImagePipe
   ],
   imports: [
     CommonModule,
@@ -22,7 +26,11 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   exports:[
     LoadingComponent,
     NavigationComponent,
-    SidebarComponent
+    SidebarComponent,
+    ImagePipe
+  ],
+  providers: [
+    ImagePipe
   ]
 })
 export class SharedModule { }

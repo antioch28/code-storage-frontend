@@ -1,9 +1,9 @@
 <div (dblclick)="openFolder()" class="pointer">
     <mat-card>
         <mat-card-content fxLayout="row no-wrap" fxLayoutAlign="space-between center">
-            <mat-icon>folder</mat-icon>
+            <mat-icon>{{ folder.starred ? 'folder_special' : 'folder' }}</mat-icon>
             <span class="folder-card-name">{{ folder.name }}</span>
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Opciones de carpeta">
             <mat-icon>more_horiz</mat-icon>
         </button>
         </mat-card-content>
@@ -11,24 +11,36 @@
 </div>
 
 <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-        <mat-icon>edit</mat-icon>
-        <span>Renombrar</span>
+    <ng-container *ngIf="!folder.deleted">
+        <button mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>Renombrar</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>info</mat-icon>
+            <span>Detalles</span>
+        </button>
+        <button mat-menu-item (click)="shareFolder()">
+            <mat-icon>share</mat-icon>
+            <span>Compartir</span>
+        </button>
+        <button mat-menu-item (click)="stareFolder()">
+            <mat-icon *ngIf="!folder.starred">star</mat-icon>
+            <mat-icon *ngIf="folder.starred">star_border</mat-icon>
+            <span *ngIf="!folder.starred">Agregar a destacadas</span>
+            <span *ngIf="folder.starred">Quitar de destacadas</span>
+        </button>
+    </ng-container>
+    <button mat-menu-item *ngIf="folder.deleted" (click)="onUndeleteFolder()">
+        <mat-icon>reply</mat-icon>
+        <span>Restaurar</span>
     </button>
-    <button mat-menu-item>
-        <mat-icon>info</mat-icon>
-        <span>Detalles</span>
+    <button mat-menu-item *ngIf="!folder.deleted" (click)="onDeleteFolder()">
+        <mat-icon *ngIf="!folder.deleted">delete</mat-icon>        
+        <span *ngIf="!folder.deleted">Mover a la papelera</span>        
     </button>
-    <button mat-menu-item>
-        <mat-icon>share</mat-icon>
-        <span>Compartir</span>
-    </button>
-    <button *ngIf="!folder.starred" mat-menu-item>
-        <mat-icon>star</mat-icon>
-        <span>Agregar a destacadas</span>
-    </button>
-    <button mat-menu-item>
-        <mat-icon>delete</mat-icon>
-        <span>Mover a la papelera</span>
+    <button mat-menu-item *ngIf="folder.deleted" (click)="onDeletePermFolder()">
+        <mat-icon>delete_forever</mat-icon>
+        <span>Eliminar definitivamente</span>
     </button>
 </mat-menu>

@@ -10,6 +10,7 @@ export class FoldersService {
 
   private api_url = environment.api_url;
   newFolderEmitter: BehaviorSubject<{}> = new BehaviorSubject({});
+  currentFolder: BehaviorSubject<string> = new BehaviorSubject(null);
 
   constructor(
     private http: HttpClient
@@ -32,23 +33,31 @@ export class FoldersService {
   }
 
   getFolder( folderId ) {
-    return this.http.get(`${this.api_url}/folders/${folderId}`);
+    return this.http.get(`${this.api_url}/folders/${folderId}/detail`);
   }
 
   createFolder( folder ) {
     return this.http.post(`${this.api_url}/folders`, folder);
   }  
 
-  stareFolder( projectId ) {
-    return this.http.put(`${this.api_url}/folders/${projectId}/stare`, {});
+  stareFolder( folderId, starred ) {
+    return this.http.put(`${this.api_url}/folders/${folderId}/stare`, { starred });
   }
 
-  deleteFolder( project ) {
-    if ( project.deleted ) {
-      return this.http.delete(`${this.api_url}/folders/${project._id}`);
-    } else {
-      return this.http.put(`${this.api_url}/folders/${project._id}/trash`, {});
-    }
+  shareFolder( folderId, sharedWith) {
+    return this.http.put(`${this.api_url}/folders/${folderId}/share`, { sharedWith });
+  }
+
+  deleteFolder( folderId ) {    
+    return this.http.put(`${this.api_url}/folders/${folderId}/trash`, { deleted: true});    
+  }
+
+  deletePermFolder( folderId ) {
+    return this.http.delete(`${this.api_url}/folders/${folderId}`);
+  }
+
+  undeleteFolder( folderId ) {
+    return this.http.put(`${this.api_url}/folders/${folderId}/trash`, { deleted: false});
   }
 
   updateFolder( folder ) {
@@ -57,6 +66,10 @@ export class FoldersService {
 
   pushNewFolder( folder ) {
     this.newFolderEmitter.next(folder);
+  }
+
+  setCurrentFolder( folderId ) {
+    this.currentFolder.next(folderId);
   }
   
 }

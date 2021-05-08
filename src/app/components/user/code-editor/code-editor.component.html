@@ -1,0 +1,2 @@
+<ngx-ace-editor #editor [durationBeforeCallback]="1500" (textChanged)="updatedCode.emit({code: text, type: mode})" [(text)]="text" style="min-height: 100%; width:100%; overflow: auto;">
+</ngx-ace-editor>

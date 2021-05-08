@@ -1,0 +1,13 @@
+<div class="w-100">
+    <h1 mat-dialog-title>
+        <mat-icon matListIcon>delete</mat-icon> Eliminar {{ data.type }}
+    </h1>
+    <div mat-dialog-content class="text-center">
+        <h3 *ngIf="!data.perm">Desea mover {{ data.name }} a la papelera?</h3>
+        <h3 *ngIf="data.perm">Desea eliminar {{ data.name }} definitivamente?</h3>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Confirmar</button>
+    </div>
+</div>

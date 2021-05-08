@@ -1,0 +1,27 @@
+.profile-setting
+    cursor: pointer
+
+    & > .profile-btn-sm
+        display: inline-bock
+        position: absolute
+        bottom: 1.4rem
+        right: 50%
+        transform: translateX(4.5rem)
+
+    & > .profile-btn-md
+        position: absolute
+        bottom: 1.4rem
+        right: 1.4rem
+    
+    &:hover
+        & > .profile-btn-md
+            display: inline-block
+
+.account-setting-left
+    position: -webkit-sticky
+    position: sticky
+    top: 0
+    align-self: flex-start
+
+.account-setting-parent
+    overflow: auto

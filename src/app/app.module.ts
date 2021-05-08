@@ -10,12 +10,11 @@ import { SharedModule } from './components/shared/shared.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { TokenService } from './services/token.service';
-import { FolderCardComponent } from './components/folder-card/folder-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,    
-    HomeComponent, FolderCardComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,

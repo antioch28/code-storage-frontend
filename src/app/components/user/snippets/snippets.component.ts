@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationService } from 'src/app/services/navigation.service';
 import { SnippetsService } from '../../../services/snippets.service';
 
 @Component({
@@ -11,15 +12,16 @@ export class SnippetsComponent implements OnInit {
   snippets = [];
   loadingData = true;
 
-  constructor(
+  constructor(    
     private snippetsService: SnippetsService
   ) { }
 
   ngOnInit(): void {
+
     this.snippetsService.getSnippets()
-      .subscribe( res => {
-        console.log(res);
+      .subscribe( (res: any) => {
         this.loadingData = false;
+        this.snippets = res;
       }, err => {
         console.log(err);
       });
@@ -30,6 +32,14 @@ export class SnippetsComponent implements OnInit {
         }, err => {
           console.log(err);
         });
+  }
+
+  onDeletedSnippet( folderId ) {    
+    let index = this.snippets.findIndex( folder => folder._id == folderId);
+
+    if (index > -1) {
+      this.snippets.splice(index, 1);
+    }
   }
 
 }

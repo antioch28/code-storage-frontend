@@ -32,23 +32,31 @@ export class ProjectsService {
   }
 
   getProject( projectId ) {
-    return this.http.get(`${this.api_url}/projects/${projectId}`);
+    return this.http.get(`${this.api_url}/projects/${projectId}/detail`);
   }
 
   createProject( project ) {
     return this.http.post(`${this.api_url}/projects`, project);
   }
 
-  stareProject( projectId ) {
-    return this.http.put(`${this.api_url}/projects/${projectId}/stare`, {});
+  stareProject( projectId, starred ) {
+    return this.http.put(`${this.api_url}/projects/${projectId}/stare`, { starred });
   }
 
-  deleteProject( project ) {
-    if ( project.deleted ) {
-      return this.http.delete(`${this.api_url}/projects/${project._id}`);
-    } else {
-      return this.http.put(`${this.api_url}/projects/${project._id}/trash`, {});
-    }
+  shareProject( projectId, sharedWith) {
+    return this.http.put(`${this.api_url}/projects/${projectId}/share`, { sharedWith });
+  }
+
+  deleteProject( projectId ) {    
+    return this.http.put(`${this.api_url}/projects/${projectId}/trash`, { deleted: true});    
+  }
+
+  deletePermProject( projectId ) {
+    return this.http.delete(`${this.api_url}/projects/${projectId}`);
+  }
+
+  undeleteProject( projectId ) {
+    return this.http.put(`${this.api_url}/projects/${projectId}/trash`, { deleted: false});
   }
 
   updateProject( project ) {

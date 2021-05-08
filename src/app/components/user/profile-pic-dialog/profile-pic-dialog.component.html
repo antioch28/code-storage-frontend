@@ -1,0 +1,25 @@
+<div class="w-100">
+    <h1 mat-dialog-title class="mb-2">
+        <mat-icon>photo_camera</mat-icon> Foto de perfil
+    </h1>
+    <mat-divider>
+    </mat-divider>
+    <div mat-dialog-content class="text-center mt-2">
+
+        <form enctype="multipart/form-data">
+            <input hidden name="profile" (change)="onFileUpdated($event)" type="file" accept="image/*" #profileInput>
+        </form>
+
+        <div class="text-center py-2">
+            <img #picPreview class="img-fluid img-thumbnail rounded-circle" src="" style="height: 150px; width: 150px;" alt="Selected profile pic">
+        </div>
+
+        <button class="mb-2" (click)="profileInput.click()" mat-button color="accent"><mat-icon>add_a_photo</mat-icon> Seleccionar archivo</button>
+    </div>
+    <mat-divider>
+    </mat-divider>
+    <div mat-dialog-actions align="end">
+        <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-button color="primary" [disabled]="!picture" (click)="updateProfile()">Actualizar</button>
+    </div>
+</div>

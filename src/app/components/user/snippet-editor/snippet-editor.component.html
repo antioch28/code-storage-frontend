@@ -1,1 +1,52 @@
-<p>snippet-editor works!</p>
+<div class="container-fluid flex-container" style="height: 85%;" *ngIf="snippet && snippet.name">
+
+    <div class="flex-section py-2">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <button mat-mini-fab (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <div class="pl-3" fxFlex="70">
+                <h4 class="alert-heading mb-0">
+                    {{ snippet.name }}
+                </h4>
+                <p class="text-muted mb-1">Últ. modificación: {{ snippet.lastModified | date:'short'}}</p>
+            </div>
+            <div *ngIf="updatingSnippet" fxFlex="30" class="px-3" fxLayoutAlign="end center">
+                <span>
+                    <mat-spinner diameter="15" strokeWidth="1" color="accent" mode="indeterminate">
+                    </mat-spinner>                    
+                </span>
+                <span class="ml-2" color="accent">Guardando cambios</span>
+            </div>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+
+    <div *ngIf="!loadingData " class="w-100 pt-3" style="height: 100%;">
+        <app-code-editor (updatedCode)="onCodeUpdated($event)" [edTheme]="'dracula'" [text]="snippet.code" [mode]="'sql'"></app-code-editor>
+    </div>
+
+</div>
+
+<!-- <div *ngIf="!loadingData" class="py-2 px-3">
+    <div fxLayout="row " fxLayoutAlign="start center ">
+        <button mat-mini-fab (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div fxFlex="100 " class="pl-3 ">
+            <h4 class="alert-heading mb-0 ">
+                {{ snippet.name }}
+            </h4>
+            <p class="text-muted mb-1 ">Últ. modificación: {{ snippet.lastModified | date:'dd/MM/YYYY'}}</p>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider> -->
+
+<!-- <div *ngIf="!loadingData " class="w-100 p-3" style="height: 85%;">
+    <app-code-editor (updatedCode)="onCodeUpdated($event)" [edTheme]="'dracula'" [text]="snippet.code" [mode]="'sql'"></app-code-editor>
+</div> -->
+
+<div *ngIf="loadingData " class="h-100 w-100 ">
+    <app-loading></app-loading>
+</div>

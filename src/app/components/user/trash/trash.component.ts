@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FoldersService } from 'src/app/services/folders.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { SnippetsService } from 'src/app/services/snippets.service';
+import { NavigationService } from '../../../services/navigation.service';
 
 @Component({
   selector: 'app-trash',
@@ -16,6 +17,7 @@ export class TrashComponent implements OnInit {
   loadingData = true;
 
   constructor(
+    private navigationService: NavigationService,
     private foldersService: FoldersService,
     private projectsService: ProjectsService,
     private snippetsService: SnippetsService
@@ -45,6 +47,55 @@ export class TrashComponent implements OnInit {
       }, err => {
         console.log(err);
       });
+
+  }
+
+  onUndeletedFolder( folderId ) {
+    let index = this.folders.findIndex( folder => folder._id == folderId);
+
+    if (index > -1) {
+      this.folders.splice(index, 1);
+    }
+  }
+
+  onDeletedPermFolder( folderId ) {
+    let index = this.folders.findIndex( folder => folder._id == folderId);
+
+    if (index > -1) {
+      this.folders.splice(index, 1);
+    }
+  }
+
+  onUndeletedProject( projectId ) {
+    let index = this.projects.findIndex( project => project._id == projectId);
+
+    if (index > -1) {
+      this.projects.splice(index, 1);
+    }
+  }
+
+  onDeletedPermProject( projectId ) {
+    let index = this.projects.findIndex( project => project._id == projectId);
+
+    if (index > -1) {
+      this.projects.splice(index, 1);
+    }
+  }
+
+  onUndeletedSnippet( snippetId ) {
+    let index = this.snippets.findIndex( snippet => snippet._id == snippetId);
+
+    if (index > -1) {
+      this.snippets.splice(index, 1);
+    }
+  }
+
+  onDeletedPermSnippet( snippetId ) {
+    let index = this.snippets.findIndex( snippet => snippet._id == snippetId);
+
+    if (index > -1) {
+      this.snippets.splice(index, 1);
+    }
   }
 
 }

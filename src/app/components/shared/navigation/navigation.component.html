@@ -1,40 +1,32 @@
 <p class="mb-0">
     <mat-toolbar color="primary">
-        <button *ngIf="hasSidebar" fxHide.xs mat-icon-button class="example-icon" (click)="toggleSidebar()" aria-label="Example icon-button with menu icon">
-            <mat-icon *ngIf="!showFiller">menu</mat-icon>
-            <mat-icon *ngIf="showFiller">close</mat-icon>
-        </button>
-        <img src="../assets/img/code-storage-toolbar-logo.png" class="mr-2" width="30px" height="30px" alt="toolbar-icon">
-        <span>Code Storage</span>
-        <span class="example-spacer"></span>
-
-        <button *ngIf="showSearchbar" mat-button class="example-icon favorite-icon" (click)="toggleSearchbar()">
-            <mat-icon>search</mat-icon>
-        </button>
-
-
-        <ng-container *ngIf="showAuthLinks">
-            <button mat-button routerLink='/auth/login' class="example-icon favorite-icon">
-                Log In        
+        <mat-toolbar-row>
+            <button *ngIf="hasSidebar" mat-icon-button class="example-icon" (click)="toggleSidebar()" aria-label="Example icon-button with menu icon">
+                <mat-icon *ngIf="!showFiller">menu</mat-icon>
+                <mat-icon *ngIf="showFiller">close</mat-icon>
             </button>
-            <button mat-button routerLink='/auth/signin' class="example-icon">
-                Sign Up        
-            </button>
-        </ng-container>
+            <img src="../assets/img/code-storage-toolbar-logo.png" class="mr-2" width="30px" height="30px" alt="toolbar-icon">
+            <span>Code Storage</span>
+            <span class="example-spacer"></span>
 
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/my/settings">
-                <mat-icon>settings</mat-icon>
-                <span>Ajustes de cuenta</span>
+            <button *ngIf="hasSearchbar" mat-button class="example-icon favorite-icon" (click)="toggleSearchbar()">
+                <mat-icon>search</mat-icon>
             </button>
-            <button mat-menu-item (click)="logout()">
-                <mat-icon>power_settings_new</mat-icon>
-                <span>Cerrar sesión</span>
+
+            <ng-container *ngIf="showAuthLinks">
+                <button mat-button routerLink='/auth/login' class="example-icon favorite-icon">
+                    Log In        
                 </button>
-        </mat-menu>
+                <button mat-button routerLink='/auth/signin' class="example-icon">
+                    Sign Up        
+                </button>
+            </ng-container>
+
+            <button mat-icon-button *ngIf="showUserMenu" [matMenuTriggerFor]="userMenu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
     </mat-toolbar>
     <mat-toolbar-row *ngIf="showSearchbar" class="pt-3">
         <mat-form-field appearance="fill" style="width: 100%;">
@@ -52,3 +44,20 @@
 <div *ngIf="!hasSidebar">
 
 </div>
+
+<mat-menu #userMenu="matMenu">
+    <div class="py-2 px-5 text-center" *ngIf="loggedUser && loggedUser.name">
+        <img src="{{ loggedUser.profile | image }}" class="img-thumbnail img-fluid rounded-circle" alt="User profile pic" style="width: 150px; height: 150px;" srcset=""><br>
+        <span mat-line><b>{{ loggedUser.name }}</b></span><br>
+        <span mat-line>{{ loggedUser.email}}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <button mat-menu-item routerLink="/my/settings">
+        <mat-icon>settings</mat-icon>
+        <span>Ajustes de cuenta</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+        <mat-icon>power_settings_new</mat-icon>
+        <span>Cerrar sesión</span>
+        </button>
+</mat-menu>

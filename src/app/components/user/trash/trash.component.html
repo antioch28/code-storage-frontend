@@ -1,13 +1,37 @@
-<div class="p-3">
+<div class="pt-3 px-3">
     <div>
         <h2>Papelera</h2>
     </div>
     <mat-divider></mat-divider>
 </div>
 
-<div *ngIf="!loadingData" fxLayout="row wrap" fxLayoutGap="12px grid" class="p-2">
-    <div fxFlex="100" fxFlex.sm="33" fxFlex.md="25" fxFlex.lg="20" *ngFor="let snippet of snippets">
-        <app-snippet-card [snippet]="snippet"></app-snippet-card>
+<div *ngIf="!loadingData">
+    <div *ngIf="folders.length > 0" class="p-3">
+        <h3 class="text-muted">Carpetas</h3>
+        <div fxLayout="row wrap" fxLayoutGap="12px grid">
+            <div fxFlex="100" fxFlex.sm="33" fxFlex.md="25" fxFlex.lg="20" *ngFor="let folder of folders">
+                <app-folder-card [folder]="folder" (undeletedFolder)="onUndeletedFolder($event)" (deletedFolder)="onDeletedPermFolder($event)"></app-folder-card>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="projects.length > 0" class="p-3">
+        <h3 class="text-muted">Proyectos</h3>
+        <div fxLayout="row wrap" fxLayoutGap="12px grid">
+            <div fxFlex="100" fxFlex.sm="33" fxFlex.md="25" fxFlex.lg="20" *ngFor="let project of projects">
+                <app-project-card [project]="project" (undeletedProject)="onUndeletedProject($event)" (deletedProject)="onDeletedPermProject($event)"></app-project-card>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="snippets.length > 0" class="p-3">
+        <h3 class="text-muted">Snippets</h3>
+        <div fxLayout="row wrap" fxLayoutGap="12px grid">
+            <div fxFlex="100" fxFlex.sm="33" fxFlex.md="25" fxFlex.lg="20" *ngFor="let snippet of snippets">
+                <app-snippet-card [snippet]="snippet" (undeletedSnippet)="onUndeletedSnippet($event)" (deletedSnippet)="onDeletedPermSnippet($event)"></app-snippet-card>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="(folders.length == 0 && projects.length == 0 && snippets.length == 0)" class="p-5" fxLayoutAlign="center center">
+        <h3 class="text-muted">La papelera está vacía</h3>
     </div>
 </div>
 

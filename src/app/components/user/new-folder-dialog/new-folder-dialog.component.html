@@ -1,14 +1,17 @@
-<div class="w-100 p-3">
-    <h1 mat-dialog-title>
-        <mat-icon>create_new_folder</mat-icon> Nueva carpeta</h1>
-    <div mat-dialog-content class="text-center">
+<div class="w-100">
+    <h1 mat-dialog-title class="mb-2">
+        <mat-icon>create_new_folder</mat-icon> Nueva carpeta
+    </h1>
+    <mat-divider>
+    </mat-divider>
+    <div mat-dialog-content class="text-center mt-2">
         <mat-form-field class="w-100">
             <mat-label>Nombre de la carpeta</mat-label>
             <input matInput [(ngModel)]="data.folderName">
         </mat-form-field>
     </div>
-    <div mat-dialog-actions>
-        <button mat-button (click)="onNoClick()">No Thanks</button>
-        <button mat-button [mat-dialog-close]="data.folderName" cdkFocusInitial>Ok</button>
+    <div mat-dialog-actions align="end">
+        <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-button color="primary" [mat-dialog-close]="data.folderName" cdkFocusInitial>Crear</button>
     </div>
 </div>

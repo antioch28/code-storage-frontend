@@ -1,39 +1,36 @@
-<div class="container-fluid h-75 flex-container">
+<div class="container-fluid flex-container" style="height: 85%;">
 
-    <mat-tab-group>
+    <!-- <mat-tab-group>
         <mat-tab label="HTML"></mat-tab>
         <mat-tab label="JavaScript"></mat-tab>
         <mat-tab label="CSS"></mat-tab>
-    </mat-tab-group>
+    </mat-tab-group> -->
 
-    <div class="flex-section">
-        <h4 class="alert-heading mb-0">
-            {{ project.name }}
-        </h4>
-        <p class="text-muted mb-2">Últ. modificación: {{ project.lastModified | date:'short'}}</p>
-        <button style="position: absolute; top: 10px; right: 10px;" mat-fab color="primary" (click)="makeBlob()">
-            <mat-icon>remove_red_eye</mat-icon>
-        </button>
-        <hr class="bg-light mt-0">
+    <div class="flex-section py-2">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <button mat-mini-fab (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <div class="pl-3" fxFlex="70">
+                <h4 class="alert-heading mb-0">
+                    {{ project.name }}
+                </h4>
+                <p class="text-muted mb-1">Últ. modificación: {{ project.lastModified | date:'short'}}</p>
+            </div>
+            <div *ngIf="updatingProject" fxFlex="30" class="px-3" fxLayoutAlign="end center">
+                <span>
+                    <mat-spinner diameter="15" strokeWidth="1" color="accent" mode="indeterminate">
+                    </mat-spinner>                    
+                </span>
+                <span class="ml-2" color="accent">Guardando cambios</span>
+            </div>
+        </div>
+        <!-- <hr class="bg-light mt-0"> -->
     </div>
+    <mat-divider></mat-divider>
 
-    <!-- <div class="container-fluid p-0 flex-boxes" fxLayout="row wrap" fxLayoutAlign="between stretch">
-        <div class="code-boxes" fxFlex="calc(50% - 8px)">
-            <ngx-monaco-editor #htmlEditor [options]="htmlOptions" [(ngModel)]="htmlCode"></ngx-monaco-editor>
-        </div>
-        <div class="code-boxes" fxFlex="calc(50% - 8px)">
-            <ngx-monaco-editor #cssEditor [options]="cssOptions" [(ngModel)]="cssCode"></ngx-monaco-editor>
-        </div>
-        <div class="code-boxes" fxFlex="calc(50% - 8px)">
-            <ngx-monaco-editor #jsEditor [options]="jsOptions" [(ngModel)]="jsCode"></ngx-monaco-editor>
-        </div>
-        <div class="code-boxes" fxFlex="calc(50% - 8px)">
-            <iframe src="" frameborder="0" width="100%" height="100%" #previewFrame></iframe>
-        </div>
-    </div> -->
-
-    <div class="p-0 h-100" fxLayout="row wrap" fxLayoutAlign="space-between stretch" fxLayoutGap="8px grid">
-        <div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlex="50">
+    <div class="pt-2 h-100" fxLayout="row wrap" fxLayoutAlign="space-between stretch" fxLayoutGap="8px grid">
+        <!-- <div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlex="50">
             <div class="code-boxes" fxFlex="50">
                 <div style="height: 100%; width: 100%;" #html></div>
             </div>
@@ -48,22 +45,25 @@
             <div class="code-boxes" fxFlex.xs="100" fxFlex.md="50">
                 <iframe src="" frameborder="0" width="100%" height="100%" #previewFrame></iframe>
             </div>
-        </div>
-    </div>
+        </div> -->
 
-    <!-- <div class="container-fluid p-0 flex-boxes" fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="8px grid">
-        <div class="code-boxes" fxFlex.xs="100" fxFlex.md="50">
-            <div style="height: 100%; width: 100%;" #html></div>
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlex="50">
+            <div class="code-boxes" fxFlex="50">
+                <app-code-editor (updatedCode)="onCodeUpdated($event)" [mode]="'html'" [edTheme]="'dracula'" [text]="project.code.html"></app-code-editor>
+            </div>
+            <div class="code-boxes" fxFlex="50">
+                <app-code-editor (updatedCode)="onCodeUpdated($event)" [mode]="'css'" [edTheme]="'eclipse'" [text]="project.code.css"></app-code-editor>
+            </div>
         </div>
-        <div class="code-boxes" fxFlex.xs="100" fxFlex.md="50">
-            <div style="height: 100%; width: 100%;" #js></div>
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlex="50">
+            <div class="code-boxes" fxFlex.xs="100" fxFlex.md="50">
+                <app-code-editor (updatedCode)="onCodeUpdated($event)" [mode]="'javascript'" [edTheme]="'eclipse'" [text]="project.code.js"></app-code-editor>
+            </div>
+            <div class="code-boxes" fxFlex.xs="100" fxFlex.md="50">
+                <iframe src="" frameborder="0" width="100%" height="100%" #previewFrame></iframe>
+            </div>
         </div>
-        <div class="code-boxes" fxFlex.xs="100" fxFlex.md="50">
-            <div style="height: 100%; width: 100%;" #css></div>
-        </div>
-        <div class="code-boxes" fxFlex.xs="100" fxFlex.md="50">
-            <iframe src="" frameborder="0" width="100%" height="100%" #previewFrame></iframe>
-        </div>
-    </div> -->
+
+    </div>
 
 </div>

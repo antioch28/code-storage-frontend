@@ -11,24 +11,34 @@
 </div>
 
 <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-        <mat-icon>edit</mat-icon>
-        <span>Renombrar</span>
+    <ng-container *ngIf="!snippet.deleted">
+        <button mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>Renombrar</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>info</mat-icon>
+            <span>Detalles</span>
+        </button>
+        <button mat-menu-item (click)="shareSnippet()">
+            <mat-icon>share</mat-icon>
+            <span>Compartir</span>
+        </button>
+        <button *ngIf="!snippet.starred" mat-menu-item>
+            <mat-icon>star</mat-icon>
+            <span>Agregar a destacados</span>
+        </button>
+    </ng-container>
+    <button mat-menu-item *ngIf="snippet.deleted" (click)="onUndeleteSnippet()">
+        <mat-icon>reply</mat-icon>
+        <span>Restaurar</span>
     </button>
-    <button mat-menu-item>
-        <mat-icon>info</mat-icon>
-        <span>Detalles</span>
+    <button mat-menu-item *ngIf="!snippet.deleted" (click)="onDeleteSnippet()">
+        <mat-icon *ngIf="!snippet.deleted">delete</mat-icon>        
+        <span *ngIf="!snippet.deleted">Mover a la papelera</span>        
     </button>
-    <button mat-menu-item>
-        <mat-icon>share</mat-icon>
-        <span>Compartir</span>
-    </button>
-    <button *ngIf="!snippet.starred" mat-menu-item>
-        <mat-icon>star</mat-icon>
-        <span>Agregar a destacados</span>
-    </button>
-    <button mat-menu-item>
-        <mat-icon>delete</mat-icon>
-        <span>Mover a la papelera</span>
+    <button mat-menu-item *ngIf="snippet.deleted" (click)="onDeletePermSnippet()">
+        <mat-icon>delete_forever</mat-icon>
+        <span>Eliminar definitivamente</span>
     </button>
 </mat-menu>

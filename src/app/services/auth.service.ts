@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment";
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { environment } from "../../environments/environment";
 export class AuthService {
 
   private api_url = environment.api_url;
-  private logged = localStorage.getItem('token') ? true : false;
+  userLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     private http: HttpClient) { }
@@ -22,12 +23,12 @@ export class AuthService {
   }
 
   loggedIn() {
-    return this.logged;
+    return localStorage.getItem('token') ? true : false;
   }
 
   setToken( token ) {    
     localStorage.setItem('token', token);
-    this.logged = true;
+    this.userLoggedIn.next(true);
   }
 
   getToken() {    
@@ -35,8 +36,8 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.logged = false;
+    localStorage.removeItem('token');    
+    this.userLoggedIn.next(false);
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FoldersService } from 'src/app/services/folders.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { SnippetsService } from 'src/app/services/snippets.service';
 
@@ -16,6 +17,7 @@ export class StarredComponent implements OnInit {
   loadingData = true;
 
   constructor(
+    private navigationService: NavigationService,
     private foldersService: FoldersService,
     private projectsService: ProjectsService,
     private snippetsService: SnippetsService
@@ -46,5 +48,30 @@ export class StarredComponent implements OnInit {
         console.log(err);
       });
   }
+
+  onUnstarredFolder( folderId ) {
+    let index = this.folders.findIndex( folder => folder._id == folderId);
+
+    if (index > -1) {
+      this.folders.splice(index, 1);
+    }
+  }
+
+  onUnstarredProject( projectId ) {
+    let index = this.projects.findIndex( project => project._id == projectId);
+
+    if (index > -1) {
+      this.projects.splice(index, 1);
+    }
+  }
+
+  onUnstarredSnippet( snippetId ) {
+    let index = this.snippets.findIndex( snippet => snippet._id == snippetId);
+
+    if (index > -1) {
+      this.snippets.splice(index, 1);
+    }
+  }
+
 
 }

@@ -2,62 +2,53 @@
     <mat-card>
         <mat-card-content fxLayout="row no-wrap" fxLayoutAlign="space-between center">
             <mat-icon>work</mat-icon>
-            <div>
-                <mat-card-title>{{ project.name }}</mat-card-title>
-                <mat-card-subtitle>Ult. modificación: {{ project.lastModified | date:'short' }}</mat-card-subtitle>
-            </div>
+            <span fxFlex="60" class="folder-card-name">{{ project.name }}</span>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Opciones de proyecto">
+                <mat-icon>more_horiz</mat-icon>
+            </button>
         </mat-card-content>
-        <mat-divider></mat-divider>
-        <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-            <button mat-button color="primary" [routerLink]="['../projects', project._id]"><mat-icon>edit</mat-icon> Editar</button>
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>more_horiz</mat-icon>
-        </button>
-        </mat-card-actions>
     </mat-card>
 </div>
 
-<!-- <mat-card>
-    <mat-card-content fxLayout="row no-wrap" fxLayoutAlign="space-between center">
-        <mat-icon>work</mat-icon>
-        <div>            
-            <mat-card-title>{{ project.name }}</mat-card-title>
-            <mat-card-subtitle>Ult. modificación: {{ project.lastModified | date:'short' }}</mat-card-subtitle>
-        </div>
-    </mat-card-content>
-    <mat-divider></mat-divider>
-    <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-        <button mat-button color="primary" [routerLink]="[project._id]"><mat-icon>edit</mat-icon> Editar</button>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>more_horiz</mat-icon>
-        </button>
-    </mat-card-actions>
-</mat-card> -->
-
-
 <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <ng-container *ngIf="!project.deleted">
+        <button mat-menu-item>
             <mat-icon>open_in_new</mat-icon>
             <span>Vista previa</span>
         </button>
-    <button mat-menu-item>
+        <button mat-menu-item>
             <mat-icon>file_download</mat-icon>
             <span>Descargar proyecto</span>
         </button>
-    <button mat-menu-item>
+        <button mat-menu-item>
+            <mat-icon>offline_pin</mat-icon>
+            <span>Disponible sin conexión</span>
+        </button>
+        <button mat-menu-item>
             <mat-icon>info</mat-icon>
             <span>Información del proyecto</span>
         </button>
-    <button mat-menu-item>
+        <button mat-menu-item (click)="shareProject()">
             <mat-icon>share</mat-icon>
             <span>Compartir</span>
         </button>
-    <button mat-menu-item>
-            <mat-icon>message</mat-icon>
-            <span>Comentarios</span>
+        <button mat-menu-item (click)="stareProject()">
+            <mat-icon *ngIf="!project.starred">star</mat-icon>
+            <mat-icon *ngIf="project.starred">star_border</mat-icon>
+            <span *ngIf="!project.starred">Agregar a destacados</span>
+            <span *ngIf="project.starred">Quitar de destacados</span>
         </button>
-    <button mat-menu-item>
-            <mat-icon>delete</mat-icon>
-            <span>Mover a la papelera</span>
-        </button>
+    </ng-container>
+    <button mat-menu-item *ngIf="project.deleted" (click)="onUndeleteProject()">
+        <mat-icon>reply</mat-icon>
+        <span>Restaurar</span>
+    </button>
+    <button mat-menu-item *ngIf="!project.deleted" (click)="onDeleteProject()">
+        <mat-icon *ngIf="!project.deleted">delete</mat-icon>        
+        <span *ngIf="!project.deleted">Mover a la papelera</span>        
+    </button>
+    <button mat-menu-item *ngIf="project.deleted" (click)="onDeletePermProject()">
+        <mat-icon>delete_forever</mat-icon>
+        <span>Eliminar definitivamente</span>
+    </button>
 </mat-menu>

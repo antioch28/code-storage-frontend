@@ -24,6 +24,7 @@ const routes: Routes = [
         data: {
           hasToolbar: true,
           hasSidebar: true,
+          showAuthLinks: false,
           hasSearchbar: true
         }
       },
@@ -33,6 +34,8 @@ const routes: Routes = [
         data: {
           hasToolbar: true,
           hasSidebar: true,
+          showAuthLinks: false,
+          showUserMenu: true,
           hasSearchbar: true
         }
       },
@@ -42,6 +45,19 @@ const routes: Routes = [
         data: {
           hasToolbar: true,
           hasSidebar: true,
+          showAuthLinks: false,
+          showUserMenu: true,
+          hasSearchbar: true
+        }
+      },
+      {
+        path: 'folders/:folderId',
+        component: ProjectsComponent,
+        data: {
+          hasToolbar: true,
+          hasSidebar: true,
+          showAuthLinks: false,
+          showUserMenu: true,
           hasSearchbar: true
         }
       },
@@ -51,6 +67,8 @@ const routes: Routes = [
         data: {
           hasToolbar: true,
           hasSidebar: true,
+          showAuthLinks: false,
+          showUserMenu: true,
           hasSearchbar: true
         }
       },      
@@ -60,6 +78,8 @@ const routes: Routes = [
         data: {
           hasToolbar: true,
           hasSidebar: true,
+          showAuthLinks: false,
+          showUserMenu: true,
           hasSearchbar: true
         }
       },
@@ -69,6 +89,8 @@ const routes: Routes = [
         data: {
           hasToolbar: true,
           hasSidebar: true,
+          showAuthLinks: false,
+          showUserMenu: true,
           hasSearchbar: true
         }
       },
@@ -78,6 +100,8 @@ const routes: Routes = [
         data: {
           hasToolbar: true,
           hasSidebar: true,
+          showAuthLinks: false,
+          showUserMenu: true,
           hasSearchbar: true
         }
       },
@@ -87,6 +111,8 @@ const routes: Routes = [
         data: {
           hasToolbar: true,
           hasSidebar: false,
+          showAuthLinks: false,
+          showUserMenu: true,
           hasSearchbar: false
         }
       },
@@ -96,6 +122,8 @@ const routes: Routes = [
         data: {
           hasToolbar: true,
           hasSidebar: true,
+          showAuthLinks: false,
+          showUserMenu: true,
           hasSearchbar: false
         }
       },
@@ -106,8 +134,9 @@ const routes: Routes = [
     ],
     data: {
       hasToolbar: true,
-      hasSidebar: true,
+      hasSidebar: true,      
       showAuthLinks: false,
+      showUserMenu: true,
       hasSearchbar: true
     }
   }

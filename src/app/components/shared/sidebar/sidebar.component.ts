@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NavigationService } from 'src/app/services/navigation.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { NewFolderDialogComponent } from '../../user/new-folder-dialog/new-folder-dialog.component';
 import { FoldersService } from 'src/app/services/folders.service';
-import { NewProjectDialogComponent } from '../../user/new-project-dialog/new-project-dialog.component';
 import { ProjectsService } from '../../../services/projects.service';
-import { NewSnippetDialogComponent } from '../../user/new-snippet-dialog/new-snippet-dialog.component';
 import { SnippetsService } from '../../../services/snippets.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MatDrawer } from '@angular/material/sidenav';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,108 +15,111 @@ import { SnippetsService } from '../../../services/snippets.service';
 })
 export class SidebarComponent implements OnInit {
 
+  @ViewChild('drawer') drawer: MatDrawer;
+
+  showSidebarMenu = true;
   showFiller = false;
   manualToggle = false;
 
   newFolder = '';
-  newProject = { name: "", description: "" };
-  newSnippet = { name: "", description: "" }
+  newProject = { name: "", description: "", folderId: null };
+  newSnippet = { name: "", description: "" };
+  parentFolder = null;
 
   constructor(
     private navigationService: NavigationService,
     private foldersService: FoldersService,
     private projectsService: ProjectsService,
     private snippetsService: SnippetsService,
+    private dialogService: DialogService,
+    private activatedRoute: ActivatedRoute,
     public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
+
+    this.foldersService.currentFolder.subscribe( folderId => {
+      console.log("Carpeta actual: ", folderId);
+      this.parentFolder = folderId;
+    });
+
     this.navigationService.toggleSidebar.subscribe( toggle => {
       this.showFiller = toggle;
     }, error => {
       console.log(error);
     });
+
+    this.navigationService.hasSidebarMenu.subscribe( hasMenu => {
+      this.showSidebarMenu = hasMenu;
+    });
   }
 
   openFolderDialog(): void {
-    const dialogRef = this.dialog.open(NewFolderDialogComponent, {
-      width: '350px',
-      hasBackdrop: true,
-      data: { folderName: this.newFolder }
-    });
+    this.dialogService.openCreateFolderDialog()
+      .subscribe( result => {
+        if (result) {
+          this.newFolder = result;          
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.newFolder = result;
-
-        if (this.newFolder !== "") {
-          this.foldersService.createFolder( {name: this.newFolder})
-          .subscribe( (res: any) => {
-            if (res._id) {
-              this.foldersService.pushNewFolder(res);
-            }
-          }, err => {
-            console.log(err);
-          });
+          if (this.newFolder !== "") {
+            this.foldersService.createFolder( {name: this.newFolder, parentFolder:  this.parentFolder})
+              .subscribe( (res: any) => {
+                if (res._id) {
+                  this.foldersService.pushNewFolder(res);
+                }
+              }, err => {
+                console.log(err);
+              });
+          }
         }
-      }
-      
-    });
+      }, err => {
+        console.log(err);
+      });    
   }
 
   openProjectDialog(): void {
-    const dialogRef = this.dialog.open(NewProjectDialogComponent, {
-      width: '350px',
-      hasBackdrop: true,
-      data: { name: this.newProject.name, description: this.newProject.description }
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.newProject = result;
-
-        if (this.newProject.name !== "") {
-
-          this.projectsService.createProject( this.newProject )
-          .subscribe( (res: any) => {
-            if (res._id) {
-              this.projectsService.pushNewProject(res);
-            }
-          }, err => {
-            console.log(err);
-          });
+    this.dialogService.openCreateProjectDialog()
+      .subscribe( result => {        
+        if (result) {
+          this.newProject = result;
+          this.newProject.folderId = this.parentFolder;
+  
+          if (this.newProject.name !== "") {
+  
+            this.projectsService.createProject( this.newProject )
+            .subscribe( (res: any) => {
+              if (res._id) {
+                this.projectsService.pushNewProject(res);
+              }
+            }, err => {
+              console.log(err);
+            });
+          }
         }
-      }
-      
-    });
+      }, err => {
+        console.log(err);
+      });    
   }
 
   openSnippetDialog(): void {
-    const dialogRef = this.dialog.open(NewSnippetDialogComponent, {
-      width: '350px',
-      hasBackdrop: true,
-      data: { name: this.newSnippet.name, description: this.newSnippet.description }
-    });
+    
+    this.dialogService.openCreateSnippetDialog()
+      .subscribe(result => {
+        if (result) {
+          this.newSnippet = result;   
+          
+          if (this.newSnippet.name !== "") {
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.newSnippet = result;   
-        
-        if (this.newSnippet.name !== "") {
-
-          this.snippetsService.createSnippet( this.newSnippet )
-          .subscribe( (res: any) => {
-            if (res._id) {
-              this.snippetsService.pushNewSnippet(res);
-            }
-          }, err => {
-            console.log(err);
-          });
-        }
-      }
-      
-    });
+            this.snippetsService.createSnippet( this.newSnippet )
+            .subscribe( (res: any) => {
+              if (res._id) {
+                this.snippetsService.pushNewSnippet(res);
+              }
+            }, err => {
+              console.log(err);
+            });
+          }
+        }        
+      });
   }
-
-
 }

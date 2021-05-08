@@ -1,6 +1,6 @@
 <main fxLayout="row wrap" fxLayoutAlign="center stretch" fxFill fxFlex="100">
     <mat-drawer-container class="example-container" autosize [hasBackdrop]='false' fxFill>
-        <mat-drawer #drawer class="example-sidenav" mode="side" opened="manualToggle" fxHide.xs>
+        <mat-drawer #drawer class="example-sidenav" mode="side" opened="manualToggle">
 
             <mat-nav-list [ngClass]="{ 'round-item': !showFiller}">
                 <a mat-list-item [matMenuTriggerFor]="menu" [matTooltip]=" !showFiller ? 'Nuevo Proyecto' : ''" matTooltipPosition='after' class="listitem">

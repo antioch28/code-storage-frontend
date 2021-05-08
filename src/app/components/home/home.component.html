@@ -1,7 +1,11 @@
 <app-navigation></app-navigation>
-<div class="jumbotron jumbotron-fluid" [ngStyle.md]="{ height: 'calc(70vh - 64px)'}">
-    <div class="container" fxLayout.md="row" fxLayoutAlign="center center">
-        <div fxFlex="50" class="text-right">
+
+<div class="jumbotron jumbotron-fluid main-jumbotron mb-0" [ngClass]="['px-4', 'py-4']" [ngClass.md]="['px-5']">
+    <div class="jumbo-container py-5" [ngClass]="['pl-1']" [ngClass.md]="['pl-5']" fxLayout="column" fxLayout.md="row" fxLayoutAlign="space-between center" fxLayoutAlign.md="center center" [class.mat-elevation-z15]="true">
+        <div fxFlex.md="50" fxFlexOrder="1" fxFlexOrder.md="2" class="text-center">
+            <img src="../../../assets/img/code-storage-landing-logo.png" [ngStyle]="{width: '50%'}" [ngStyle.md]="{width: '50%'}" alt="logo-code-storage">
+        </div>
+        <div fxFlex.md="50" fxFlexOrder="2" fxFlexOrder.md="1" [ngClass]="['text-center', 'mt-3']" [ngClass.md]="['text-right']">
             <h1 class="display-3">Tú codificas, nosotros almacenamos</h1>
             <p class="lead">Tus proyectos cobran vida mientras codificas</p>
             <hr class="my-2">
@@ -10,41 +14,67 @@
                 <button mat-raised-button color="warn" routerLink="auth/signin">Registrate ya!</button>
             </p>
         </div>
-        <div fxFlex="50" class="text-center">
-            <img src="../../../assets/img/code-storage-landing-logo.png" style="width: 50%;" alt="logo-code-storage">
-        </div>
     </div>
 </div>
-<div class="container-fluid pt-5">
-    <div class="container" fxLayout.xs="column" fxLayout.md="row" fxLayoutGap.md="16px grid" style="height: 50vh;" fxLayoutAlign.md="space-between stretch">
-        <div fxFlex.md="33" class="text-center">
 
-            <div fxLayoutAlign="space-evenly start" class="p-3 mb-5">
+<div class="container-fluid" [ngClass]="['p-2']" [ngClass.md]="['p-5']" [class.mat-elevation-z15]="true">
+    <div class="container" fxLayout="column" fxLayout.md="row" fxLayoutGap="16px" fxLayoutAlign.md="space-between stretch">
+
+        <div fxFlex.md="33" class="text-center feature-card" [ngClass]="['py-2']" [ngClass.md]="['mb-0', 'py-3']">
+            <div fxLayoutAlign="space-evenly start" class="p-3 mb-4" [ngClass.md]="['p-3', 'mb-5']">
                 <mat-icon color="primary" fontSet="fab" data-fa-transform="grow-50">html5</mat-icon>
                 <mat-icon color="primary" fontSet="fab" data-fa-transform="grow-50">js</mat-icon>
                 <mat-icon color="primary" fontSet="fab" data-fa-transform="grow-50">css3</mat-icon>
             </div>
-            <p>Crea, edita y previsualiza tus proyectos</p>
-
+            <p class="mb-0">Crea, edita y previsualiza tus proyectos</p>
         </div>
-        <div fxFlex.md="33" class="text-center">
 
-            <div fxLayoutAlign="space-evenly start" class="p-3 mb-5">
+        <div fxFlex.md="25" class="text-center" [ngClass]="['py-2']" [ngClass.md]="['mb-0']">
+            <div fxLayoutAlign="space-evenly start" class="p-3 mb-4" [ngClass.md]="['p-3', 'mb-5']">
                 <mat-icon color="primary" fontSet="fas" data-fa-transform="grow-50">code</mat-icon>
             </div>
-            <p>Crea Snippets de código en cualquier lenguaje</p>
+            <p class="mb-0">Crea Snippets de código en cualquier lenguaje</p>
 
         </div>
-        <div fxFlex.md="33" class="text-center">
 
-            <div fxLayoutAlign="space-evenly start" class="p-3 mb-5">
+        <div fxFlex.md="25" class="text-center" [ngClass]="['py-2']" [ngClass.md]="['mb-0']">
+            <div fxLayoutAlign="space-evenly start" class="p-3 mb-4" [ngClass.md]="['p-3', 'mb-5']">
                 <mat-icon color="primary" fontSet="fas" data-fa-transform="grow-50">download</mat-icon>
             </div>
-            <p>Descarga tus archivos o edítalos en modo sin conexión</p>
-
+            <p class="mb-0">Descarga tus archivos o edítalos en modo sin conexión</p>
         </div>
     </div>
 </div>
-<div>
-    Planes van aquí...
+
+<div class="jumbotron jumbotron-fluid main-jumbotron p-5">
+    <div fxLayout="column" fxLayout.md="row" fxLayoutAlign.md="space-between start" fxLayoutGap="16px grid">
+        <div fxFlex="33" *ngFor="let plan of plans" [ngClass]="['mb-3']" [ngClass.md]="['mb-0']">
+            <mat-card [class.mat-elevation-z5]="true" class="plan-card">
+                <mat-card-header>
+                    <mat-card-title color="primary">{{plan.name}}</mat-card-title>
+                    <mat-card-subtitle>{{plan.price | currency}} / mes</mat-card-subtitle>
+                </mat-card-header>
+                <mat-divider [inset]="true">
+                </mat-divider>
+                <mat-card-content>
+                    <mat-list>
+                        <mat-list-item>
+                            <mat-icon matListIcon>work</mat-icon>
+                            <h3 matLine>{{plan.projects}} Proyectos</h3>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon matListIcon>code</mat-icon>
+                            <h3 matLine>{{plan.snippets}} Snippets</h3>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card-content>
+                <mat-divider [inset]="true">
+                </mat-divider>
+                <mat-card-actions align="end">
+                    <button class="btn-block" mat-button color="accent">{{ plan.price == 0 ? 'COMENZAR AHORA' : 'ADQUIRIR ESTE PLAN'}}</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+
 </div>

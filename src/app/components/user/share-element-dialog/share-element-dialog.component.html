@@ -1,0 +1,20 @@
+<div class="w-100">
+    <h1 mat-dialog-title class="mb-2">
+        <mat-icon matListIcon>share</mat-icon> Compartir {{ data.type }}
+    </h1>
+    <mat-divider>
+    </mat-divider>
+    <div mat-dialog-content class="text-center mt-2">
+        <h3>Compartir <b>{{ data.name }}</b> con:</h3>
+        <mat-form-field class="w-100">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput [(ngModel)]="data.sharedWith" (input)="showHint = false" cdkFocusInitial>
+            <mat-hint *ngIf="showHint" class="text-danger">{{ err }}</mat-hint>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <!-- <button mat-button color="primary" [disabled]="data.sharedWith == '' || data.sharedWith == null" [mat-dialog-close]="data">Compartir</button> -->
+        <button mat-button color="primary" [disabled]="data.sharedWith == '' || data.sharedWith == null" (click)="verifyUser()">Compartir</button>
+    </div>
+</div>

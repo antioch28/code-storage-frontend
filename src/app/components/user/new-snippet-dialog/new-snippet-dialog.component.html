@@ -1,19 +1,20 @@
-<div class="w-100 p-3">
-    <h1 mat-dialog-title>
+<div class="w-100">
+    <h1 mat-dialog-title class="mb-2">
         <mat-icon>code</mat-icon> Nuevo snippet
     </h1>
-    <div mat-dialog-content class="text-center">
+    <mat-divider>
+    </mat-divider>
+    <div mat-dialog-content class="text-center mt-2">
         <mat-form-field class="w-100">
             <mat-label>Nombre del snippet</mat-label>
             <input matInput [(ngModel)]="data.name">
         </mat-form-field>
         <mat-form-field class="w-100">
-            <mat-label>Descripción</mat-label>
-            <input matInput [(ngModel)]="data.description">
+            <textarea matInput [(ngModel)]="data.description" rows="5" placeholder="Describe tu snippet..."></textarea>
         </mat-form-field>
     </div>
-    <div mat-dialog-actions>
-        <button mat-button (click)="onNoClick()">No Thanks</button>
-        <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+    <div mat-dialog-actions align="end">
+        <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-button color="primary" [mat-dialog-close]="data" cdkFocusInitial>Crear</button>
     </div>
 </div>

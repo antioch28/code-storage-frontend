@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { UserService } from '../../../services/user.service';
+import { NavigationService } from '../../../services/navigation.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private navigationService: NavigationService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -33,11 +35,12 @@ export class LoginComponent implements OnInit {
             this.userService.setLoggedUser(res.data);            
             this.authService.setToken(res.token);
             this.router.navigate(['my']);
+            this.navigationService.setHasSidebar(true);
           } else {
             console.log(res.msg);
 
             this.authErr = true;
-            setTimeout( () => { this.authErr = false }, 3000);
+            setTimeout( () => { this.authErr = false }, 4000);
           }
         }, err => {
           console.log(err);

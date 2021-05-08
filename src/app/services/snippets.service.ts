@@ -32,23 +32,31 @@ export class SnippetsService {
   }
 
   getSnippet( snippetId ) {
-    return this.http.get(`${this.api_url}/snippets/${snippetId}`);
+    return this.http.get(`${this.api_url}/snippets/${snippetId}/detail`);
   }
 
   createSnippet( snippet ) {
     return this.http.post(`${this.api_url}/snippets`, snippet);
   }
 
-  stareSnippet( projectId ) {
-    return this.http.put(`${this.api_url}/snippets/${projectId}/stare`, {});
+  stareSnippet( projectId, starred ) {
+    return this.http.put(`${this.api_url}/snippets/${projectId}/stare`, { starred });
   }
 
-  deleteSnippet( project ) {
-    if ( project.deleted ) {
-      return this.http.delete(`${this.api_url}/snippets/${project._id}`);
-    } else {
-      return this.http.put(`${this.api_url}/snippets/${project._id}/trash`, {});
-    }
+  shareSnippet( snippetId, sharedWith) {
+    return this.http.put(`${this.api_url}/snippets/${snippetId}/share`, { sharedWith });
+  }
+
+  deleteSnippet( snippetId ) {    
+    return this.http.put(`${this.api_url}/snippets/${snippetId}/trash`, { deleted: true});    
+  }
+
+  deletePermSnippet( snippetId ) {
+    return this.http.delete(`${this.api_url}/snippets/${snippetId}`);
+  }
+
+  undeleteSnippet( snippetId ) {
+    return this.http.put(`${this.api_url}/snippets/${snippetId}/trash`, { deleted: false});
   }
 
   updateSnippet( snippet ) {
